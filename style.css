@@ -1,34 +1,30 @@
 /* Full-screen background image */
 body {
   background-image: url("img/new.jpg");
-  background-size: cover;
-  /* makes image cover entire screen */
-  background-repeat: no-repeat;
-  background-position: center center;
-  /* centers the image */
-  background-attachment: fixed;
-  /* stays in place when scrolling */
+  background-repeat: repeat;
+  /* tiles the image */
+  background-position: top left;
+  /* starts tiling from top-left */
+  background-size: auto;
+  /* keeps original image size */
+
   margin: 0;
   height: 100vh;
   font-family: Arial, sans-serif;
   color: #fff;
   overflow: hidden;
-  /* prevent scrolling */
+  /* prevents scrolling */
 }
 
-/* Fixed, centered form */
+/* * Fixed, centered form */
 .form-container {
   position: fixed;
-  /* keeps it in place */
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  /* perfectly center */
 
   background-color: rgba(255, 255, 255, 0.3);
-  /* semi-transparent */
   backdrop-filter: blur(5px);
-  /* frosted glass effect */
   -webkit-backdrop-filter: blur(5px);
 
   padding: 30px 40px;
