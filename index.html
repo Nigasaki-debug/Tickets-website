@@ -9,20 +9,14 @@
 </head>
 
 <body>
-  <h1>🎟️ Buy Your Event Ticket</h1>
-
-  <form id="ticketForm">
-    <label>Name:</label><br>
-    <input type="text" id="name" required><br><br>
-
-    <label>Email:</label><br>
-    <input type="email" id="email" required><br><br>
-
-    <label>Number of Tickets:</label><br>
-    <input type="number" id="quantity" value="1" min="1" required><br><br>
-
-    <button type="button" id="payButton">Pay with Mobile Money</button>
-  </form>
+  <div class="form-container">
+    <h1>Book Your Ticket</h1>
+    <form>
+      <input type="text" placeholder="Name" required>
+      <input type="email" placeholder="Email" required>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
 
   <script>
     document.getElementById("payButton").addEventListener("click", () => {
