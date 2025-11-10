@@ -1,10 +1,10 @@
-from flask import Flask, render_template, request, jsonify
-import requests, qrcode, io, os, random, string, json
+from flask import Flask, request, jsonify
+import requests, qrcode, os, random, string, json
 from datetime import datetime
 import yagmail
 
 # Create Flask app
-app = Flask(__name__, template_folder='.')  # use root folder for index.html
+app = Flask(__name__)
 
 # ---------------------- CONFIG ----------------------
 PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
@@ -14,18 +14,14 @@ TICKETS_DIR = os.getenv("TICKETS_DIR", "tickets")  # default folder if not set
 # ----------------------------------------------------
 
 # Ensure tickets directory exists
-if not os.path.exists(TICKETS_DIR):
-    os.makedirs(TICKETS_DIR)
-
+os.makedirs(TICKETS_DIR, exist_ok=True)
 SALES_FILE = os.path.join(TICKETS_DIR, "sales.json")
 
 # ---------- UTILITY FUNCTIONS ----------
 def generate_ticket_id():
-    """Generate a unique 10-character ticket ID."""
     return "TKT-" + ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
 
 def create_qr_code(ticket_id, save_path):
-    """Create and save a QR code image for a ticket."""
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_H,
@@ -38,7 +34,6 @@ def create_qr_code(ticket_id, save_path):
     img.save(save_path)
 
 def send_ticket_email(receiver_email, name, tickets):
-    """Send email with ticket details and QR attachments."""
     subject = f"🎟️ Your Ticket(s) for the Event"
     body = f"""
 Hi {name},
@@ -61,7 +56,6 @@ Thank you for your purchase!
     print(f"📧 Email sent to {receiver_email}")
 
 def save_sale(name, email, quantity, payment_reference):
-    """Save a sale record to JSON file (without phone number)."""
     sale = {
         "name": name,
         "email": email,
@@ -80,7 +74,6 @@ def save_sale(name, email, quantity, payment_reference):
     else:
         data = []
 
-    # Append new sale and save
     data.append(sale)
     with open(SALES_FILE, "w") as f:
         json.dump(data, f, indent=4)
@@ -88,7 +81,7 @@ def save_sale(name, email, quantity, payment_reference):
 # ---------- FLASK ROUTES ----------
 @app.route("/")
 def home():
-   return jsonify({"message": "Ticket backend running!"})
+    return jsonify({"message": "Ticket backend running!"})
 
 @app.route("/verify", methods=["POST"])
 def verify_payment():
@@ -114,10 +107,7 @@ def verify_payment():
             create_qr_code(ticket_id, qr_filename)
             tickets.append({"ticket_id": ticket_id, "qr_code": qr_filename})
 
-        # Save sale to JSON
         save_sale(name, email, quantity, reference)
-
-        # Send tickets via email
         send_ticket_email(email, name, tickets)
 
         return jsonify({
