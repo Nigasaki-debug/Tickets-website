@@ -51,7 +51,7 @@
         },
         callback: function (response) {
           alert("Payment complete! Reference: " + response.reference);
-          fetch("/verify", {
+          fetch("https://tickets-backend.onrender.com/verify", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
