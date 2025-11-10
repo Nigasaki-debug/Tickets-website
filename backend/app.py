@@ -3,7 +3,8 @@ import requests, qrcode, io, os, random, string, json
 from datetime import datetime
 import yagmail
 
-app = Flask(__name__)
+# Create Flask app
+app = Flask(__name__, template_folder='.')  # use root folder for index.html
 
 # ---------------------- CONFIG ----------------------
 PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
@@ -89,7 +90,7 @@ def save_sale(name, email, quantity, payment_reference):
 def home():
     return render_template("index.html")
 
-@app.route("https://tickets-backend.onrender.com/verify", methods=["POST"])
+@app.route("/verify", methods=["POST"])
 def verify_payment():
     data = request.get_json()
     reference = data.get("reference")
@@ -99,11 +100,11 @@ def verify_payment():
 
     # Verify payment with Paystack
     headers = {"Authorization": f"Bearer {PAYSTACK_SECRET_KEY}"}
-    url = f"/verify/{reference}"
+    url = f"https://api.paystack.co/transaction/verify/{reference}"
     response = requests.get(url, headers=headers)
     result = response.json()
 
-    if result["data"]["status"] == "success":
+    if result.get("data", {}).get("status") == "success":
         tickets = []
 
         # Generate tickets
@@ -130,5 +131,6 @@ def verify_payment():
             "message": "Payment verification failed."
         })
 
+# ---------- ENTRY POINT ----------
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
