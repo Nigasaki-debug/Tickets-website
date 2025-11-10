@@ -9,7 +9,7 @@
 /* Page background */
 body {
   background-image: url("img/new.jpg");
-  background-size: 100% auto;
+  background-size: 50% auto;
   background-repeat: no-repeat;
   background-position: center;
   background-attachment: fixed;
