@@ -2,11 +2,10 @@
 body {
   background-image: url("img/new.jpg");
   background-size: contain;
-  /* entire image fits viewport */
+  /* fit entire image */
   background-repeat: no-repeat;
   background-position: center;
   background-attachment: fixed;
-  /* optional parallax */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,9 +19,7 @@ body {
 /* Transparent form container */
 .form-container {
   background-color: rgba(255, 255, 255, 0.3);
-  /* semi-transparent */
   backdrop-filter: blur(5px);
-  /* frosted glass effect */
   -webkit-backdrop-filter: blur(5px);
   padding: 30px 40px;
   border-radius: 15px;

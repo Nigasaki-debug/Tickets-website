@@ -10,11 +10,19 @@
 
 <body>
   <div class="form-container">
-    <h1>Book Your Ticket</h1>
-    <form>
-      <input type="text" placeholder="Name" required>
-      <input type="email" placeholder="Email" required>
-      <button type="submit">Submit</button>
+    <h1>🎟️ Buy Your Event Ticket</h1>
+
+    <form id="ticketForm">
+      <label>Name:</label>
+      <input type="text" id="name" required>
+
+      <label>Email:</label>
+      <input type="email" id="email" required>
+
+      <label>Number of Tickets:</label>
+      <input type="number" id="quantity" value="1" min="1" required>
+
+      <button type="button" id="payButton">Pay with Mobile Money</button>
     </form>
   </div>
 
@@ -31,7 +39,7 @@
       }
 
       let handler = PaystackPop.setup({
-        key: "pk_test_e9c8306cd3c6263d46ad5476b23b12a3f9a0e3f7", // Replace with your Paystack Public Key
+        key: "pk_test_e9c8306cd3c6263d46ad5476b23b12a3f9a0e3f7", // Replace with your public key
         email: email,
         amount: amount,
         currency: "GHS",
