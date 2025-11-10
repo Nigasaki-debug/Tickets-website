@@ -1,0 +1,95 @@
+/* Basic reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Page background */
+body {
+  background: linear-gradient(135deg, #0a192f, #122a45);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* Header */
+h1 {
+  margin-bottom: 25px;
+  font-size: 2rem;
+  text-align: center;
+  color: #00ffcc;
+  text-shadow: 0 0 10px #00ffcc66;
+}
+
+/* Form container */
+form {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 30px 40px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+/* Labels and inputs */
+label {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+input {
+  width: 100%;
+  padding: 10px 12px;
+  margin-top: 6px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"] {
+  background: #f9f9f9;
+  color: #222;
+}
+
+/* Pay button */
+button {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  background: #00ffcc;
+  color: #0a192f;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+}
+
+button:hover {
+  background: #00d4aa;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 255, 204, 0.3);
+}
+
+/* Small responsive tweak */
+@media (max-width: 480px) {
+  form {
+    padding: 25px 20px;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+  }
+}

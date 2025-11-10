@@ -1,0 +1,6 @@
+Flask
+requests
+python-dotenv
+yagmail
+qrcode
+gunicorn
