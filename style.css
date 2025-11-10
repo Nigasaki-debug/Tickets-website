@@ -8,25 +8,24 @@
 
 /* Page background */
 body {
-  body {
-    background-image: url("img/new.jpg");
-    background-size: contain;
-    /* scale entire image inside viewport */
-    background-repeat: no-repeat;
-    background-position: center;
-    background-attachment: fixed;
-    /* optional parallax effect */
+  background-image: url("img/new.jpg");
+  background-size: 100% auto;
+  /* width fits screen, height scales */
+  background-repeat: no-repeat;
+  background-position: top center;
+  /* aligns image to top */
+  background-attachment: fixed;
 
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 20px;
-  }
-
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
 }
+
+
 
 /* Header */
 h1 {
