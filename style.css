@@ -9,7 +9,7 @@
 /* Page background */
 body {
   background-image: url("img/new.jpg");
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
   color: #fff;
