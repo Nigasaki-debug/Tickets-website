@@ -1,11 +1,11 @@
 /* Full-screen background image */
 body {
   background-image: url("/Tickets-website/img/new.jpg");
-  background-repeat: repeat;
+  background-repeat: no-repeat;
   /* tiles the image */
   background-position: top left;
   /* starts tiling from top-left */
-  background-size: auto;
+  background-size: 50%;
   /* keeps original image size */
 
   margin: 0;
