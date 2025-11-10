@@ -89,7 +89,7 @@ def save_sale(name, email, quantity, payment_reference):
 def home():
     return render_template("index.html")
 
-@app.route("/verify", methods=["POST"])
+@app.route("https://tickets-backend.onrender.com/verify", methods=["POST"])
 def verify_payment():
     data = request.get_json()
     reference = data.get("reference")
