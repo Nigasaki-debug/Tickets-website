@@ -1,11 +1,13 @@
-/* Full-page background */
+/* Full-page background that fills screen without cropping */
 body {
   background-image: url("img/new.jpg");
-  background-size: contain;
-  /* fit entire image */
+  background-size: cover;
+  /* fill entire viewport */
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: top center;
+  /* keeps top of image visible */
   background-attachment: fixed;
+  /* optional parallax effect */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -19,7 +21,9 @@ body {
 /* Transparent form container */
 .form-container {
   background-color: rgba(255, 255, 255, 0.3);
+  /* semi-transparent */
   backdrop-filter: blur(5px);
+  /* frosted glass effect */
   -webkit-backdrop-filter: blur(5px);
   padding: 30px 40px;
   border-radius: 15px;
