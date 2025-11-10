@@ -1,6 +1,6 @@
 /* Full-screen background image */
 body {
-  background-image: url("/static/img/new.jpg");
+  background-image: url("img/new.jpg");
   background-repeat: repeat;
   /* tiles the image */
   background-position: top left;
