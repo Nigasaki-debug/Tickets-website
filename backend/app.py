@@ -88,7 +88,7 @@ def save_sale(name, email, quantity, payment_reference):
 # ---------- FLASK ROUTES ----------
 @app.route("/")
 def home():
-    return render_template("index.html")
+   return jsonify({"message": "Ticket backend running!"})
 
 @app.route("/verify", methods=["POST"])
 def verify_payment():
