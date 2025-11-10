@@ -1,30 +1,36 @@
-/* Full-page background that fills screen without cropping */
+/* Full-screen background image */
 body {
   background-image: url("img/new.jpg");
   background-size: cover;
-  /* fill entire viewport */
+  /* makes image cover entire screen */
   background-repeat: no-repeat;
-  background-position: top center;
-  /* keeps top of image visible */
+  background-position: center center;
+  /* centers the image */
   background-attachment: fixed;
-  /* optional parallax effect */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+  /* stays in place when scrolling */
   margin: 0;
+  height: 100vh;
   font-family: Arial, sans-serif;
   color: #fff;
-  padding: 20px;
+  overflow: hidden;
+  /* prevent scrolling */
 }
 
-/* Transparent form container */
+/* Fixed, centered form */
 .form-container {
+  position: fixed;
+  /* keeps it in place */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* perfectly center */
+
   background-color: rgba(255, 255, 255, 0.3);
   /* semi-transparent */
   backdrop-filter: blur(5px);
   /* frosted glass effect */
   -webkit-backdrop-filter: blur(5px);
+
   padding: 30px 40px;
   border-radius: 15px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
@@ -33,7 +39,7 @@ body {
   text-align: center;
 }
 
-/* Form styling */
+/* Form elements styling */
 .form-container form {
   display: flex;
   flex-direction: column;
