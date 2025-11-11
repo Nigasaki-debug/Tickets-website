@@ -1,24 +1,41 @@
 from flask import Flask, request, jsonify
-import requests, qrcode, io, os, random, string, json
+import requests, qrcode, os, random, string, json
 from datetime import datetime
 import yagmail
-
-# Create Flask app
-app = Flask(__name__)
 
 # ---------------------- CONFIG ----------------------
 PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
 SENDER_EMAIL = os.getenv("SENDER_EMAIL")       # Gmail address
 APP_PASSWORD = os.getenv("APP_PASSWORD")       # Gmail app password
+TICKETS_DIR = os.getenv("TICKETS_DIR", "tickets")  # Folder to save tickets
 # ----------------------------------------------------
 
-# Directory to save sales data
-SALES_FILE = "sales.json"
+# Ensure tickets directory exists
+os.makedirs(TICKETS_DIR, exist_ok=True)
+SALES_FILE = os.path.join(TICKETS_DIR, "sales.json")
+
+# Create Flask app
+app = Flask(__name__)
 
 # ---------- UTILITY FUNCTIONS ----------
 def generate_ticket_id():
     """Generate a unique ticket ID."""
     return "TKT-" + ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
+
+def create_qr_code(ticket_id):
+    """Create and save a QR code image for a ticket."""
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_H,
+        box_size=10,
+        border=4,
+    )
+    qr.add_data(ticket_id)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+    qr_filename = os.path.join(TICKETS_DIR, f"{ticket_id}.png")
+    img.save(qr_filename)
+    return qr_filename
 
 def save_sale(name, email, quantity, payment_reference):
     """Save sale record to JSON file."""
@@ -44,7 +61,7 @@ def save_sale(name, email, quantity, payment_reference):
         json.dump(data, f, indent=4)
 
 def send_ticket_email(receiver_email, name, tickets):
-    """Send tickets via email with QR codes attached."""
+    """Send tickets via email with QR code attachments."""
     subject = f"🎟️ Your Ticket(s) for the Event"
     body = f"""
 Hi {name},
@@ -62,7 +79,7 @@ Thank you for your purchase!
 -- Event Team
 """
     yag = yagmail.SMTP(SENDER_EMAIL, APP_PASSWORD)
-    attachments = [(f"{t['ticket_id']}.png", t['qr_code']) for t in tickets]
+    attachments = [t["qr_code"] for t in tickets]  # file paths
     yag.send(to=receiver_email, subject=subject, contents=body, attachments=attachments)
     print(f"📧 Email sent to {receiver_email}")
 
@@ -88,28 +105,13 @@ def verify_payment():
     if result.get("data", {}).get("status") == "success":
         tickets = []
 
-        result = {"data": {"status": "success"}}
-
-        # Generate tickets in memory
+        # Generate tickets and QR codes
         for _ in range(quantity):
             ticket_id = generate_ticket_id()
-            qr = qrcode.QRCode(
-                version=1,
-                error_correction=qrcode.constants.ERROR_CORRECT_H,
-                box_size=10,
-                border=4,
-            )
-            qr.add_data(ticket_id)
-            qr.make(fit=True)
-            img = qr.make_image(fill_color="black", back_color="white")
+            qr_path = create_qr_code(ticket_id)
+            tickets.append({"ticket_id": ticket_id, "qr_code": qr_path})
 
-            # Save QR code to bytes in memory
-            buf = io.BytesIO()
-            img.save(buf, format="PNG")
-            buf.seek(0)
-            tickets.append({"ticket_id": ticket_id, "qr_code": buf})
-
-        # Save sale and send tickets
+        # Save sale record and send email
         save_sale(name, email, quantity, reference)
         send_ticket_email(email, name, tickets)
 
@@ -118,7 +120,6 @@ def verify_payment():
             "message": f"Payment verified and tickets sent to {email}.",
             "tickets": [{"ticket_id": t["ticket_id"]} for t in tickets]
         })
-
     else:
         return jsonify({
             "status": "failed",
