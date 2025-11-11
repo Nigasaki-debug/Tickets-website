@@ -88,6 +88,8 @@ def verify_payment():
     if result.get("data", {}).get("status") == "success":
         tickets = []
 
+        result = {"data": {"status": "success"}}
+
         # Generate tickets in memory
         for _ in range(quantity):
             ticket_id = generate_ticket_id()
