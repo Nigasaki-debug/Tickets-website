@@ -1,12 +1,16 @@
-/* Full-screen background image */
+* Page background */
 body {
-  background-image: url("/Tickets-website/img/new.jpg");
-  background-repeat: no-repeat;
-  /* tiles the image */
-  background-position: top left;
-  /* starts tiling from top-left */
-  background-size: 50%;
-  /* keeps original image size */
+  background: url(img/new.jpg);
+  background-position: center;
+  backdrop-filter: blur(20px);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+}
 
   margin: 0;
   height: 50vh;
